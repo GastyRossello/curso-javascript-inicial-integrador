@@ -10,7 +10,30 @@ const claseJSON = '{"estudiantes":[{"nombre":"Juan","promedio":7},{"nombre":"Ped
 const clase = JSON.parse(claseJSON)
 let container = document.querySelector('.container')
 
+contador = 0
+acumulador = 0
 clase.estudiantes.forEach(estudiante => {
-    const estudianteHTMLString = `<p> ${estudiante.nombre}, y su promedio es ${estudiante.promedio} </p>`
-    container.insertAdjacentHTML("afterbegin", estudianteHTMLString)
+    const estudianteNombre = estudiante.nombre
+    const estudiantePromedio = estudiante.promedio
+    let fila = container.insertRow();
+    let celda = fila.insertCell(0);
+    let celda2 = fila.insertCell(1);
+    celda.innerHTML = estudiante.nombre;
+    if (estudiante.promedio == 10) {
+        celda.className = "text-danger"
+    }
+    celda2.innerHTML = estudiantePromedio;
+    contador++
+    acumulador += estudiantePromedio
+    promedioGeneral = acumulador/contador
 });
+
+/*let punto3 = document.createElement("span")
+let texto = document.createTextNode("El promedio general de la clase es: ${promedioGeneral}")
+punto3.appendChild(texto)
+principal.appendChild(punto3)
+*/
+
+let punto3 = document.querySelector('#principal')
+promedioGeneralHTMLString = `<span> El promedio general de la clase es: ${promedioGeneral}</span>`
+punto3.insertAdjacentHTML("afterend", promedioGeneralHTMLString)

@@ -28,12 +28,6 @@ clase.estudiantes.forEach(estudiante => {
     promedioGeneral = acumulador/contador
 });
 
-/*let punto3 = document.createElement("span")
-let texto = document.createTextNode("El promedio general de la clase es: ${promedioGeneral}")
-punto3.appendChild(texto)
-principal.appendChild(punto3)
-*/
-
 let punto3 = document.querySelector('#principal')
 promedioGeneralHTMLString = `<span> El promedio general de la clase es: ${promedioGeneral}</span>`
 punto3.insertAdjacentHTML("afterend", promedioGeneralHTMLString)

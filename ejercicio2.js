@@ -31,3 +31,5 @@ clase.estudiantes.forEach(estudiante => {
 let punto3 = document.querySelector('#principal')
 promedioGeneralHTMLString = `<span> El promedio general de la clase es: ${promedioGeneral}</span>`
 punto3.insertAdjacentHTML("afterend", promedioGeneralHTMLString)
+
+document.addEventListener("click")

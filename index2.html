@@ -35,34 +35,62 @@
 </head>
 <body>
     <button id="abrirModal">Abrir modal</button>
+    <div>
+        <span id="resultado"></span>
+    </div>
     <div id="modal" class="modal">
         <div id="modalContenido" class="modalContenido">
             <button id="cerrarModal" class="cerrarModal">&times;</button>
             <h2>MODAL</h2>
             <p>Ingresar un valor numérico</p>
-            <input type="text">
-            <button id="confirmarInput">Confirmar</button>
+            <p id="mensajeAviso"></p>
+            <input type="text" name="inputValor" id="inputValor">
+            <button id="confirmarInput"> Confirmar </button>
         </div>  
     </div>
-<script>
-    abrirModal = document.getElementById('abrirModal')
-    modal = document.getElementById('modal')
-    cerrarModal = document.getElementById('cerrarModal')
+    <script>
+        // EJERCICIO 3:
+        // Programo los eventos de los botones para abrir y cerrar el modal.
+        const abrirModal = document.getElementById('abrirModal')
+        const modal = document.getElementById('modal')
+        const cerrarModal = document.getElementById('cerrarModal')
 
-    abrirModal.addEventListener('click', () => {
-        modal.style.display = 'flex'
-    })
+        abrirModal.addEventListener('click', () => {
+            modal.style.display = 'flex'
+        })
 
-    cerrarModal.addEventListener('click', () => {
-        modal.style.display = 'none'
-    })
-
-    document.addEventListener('click', (event) => {
-        if (event.target === modal) {
+        cerrarModal.addEventListener('click', () => {
             modal.style.display = 'none'
-        }
-    })
+        })
 
-</script>
+        document.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none'
+            }
+        })
+
+        // Detecto el botón de confirmación y guardo el valor ingresado en el input.
+        const confirmarBoton = document.getElementById('confirmarInput')
+        const inputValor = document.getElementById('inputValor')
+        const aviso = document.getElementById('mensajeAviso')
+        const resultado = document.getElementById('resultado')
+
+        // Programo los eventos para los tipos de valores de entrada y cómo mostrarlo en pantalla.
+        confirmarBoton.addEventListener('click', () => {
+            inputValue = parseInt(inputValor.value)
+
+            if (inputValor.value == '') {
+                aviso.innerText = 'El input no puede quedar vacío'
+                aviso.style.color = 'red'
+            } else if (isNaN(inputValue)) {
+                aviso.innerText = 'El valor ingresado no es un número'
+                aviso.style.color = 'red'
+            } else {
+                modal.style.display = 'none'
+                resultado.innerText = 'El número ingresado es: ' + inputValue
+            }
+        })
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border: 1px solid #000000;
+            background-color: rgb(167, 211, 196);
+            width: 400px;;
+            border-collapse: separate;
+            border-spacing: 5px;
+        }
+
+        .text-danger{
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .modal{
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.192);
+        }
+
+        .modalContenido{
+            border-radius: 5px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .cerrarModal{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="principal">
+        <table>
+            <tr>
+              <th>Modelo</th>
+              <th>Precio</th>
+            </tr>
+        </table>
+    </div>
+    <div id="modal" class="modal">    
+        <div id="modalContenido" class="modalContenido">
+        <button id="cerrarModal" class="cerrarModal">&times;</button>
+        <p id="descripcionAuto"></p>
+        </div>
+    </div>
+
+
+    <script src="./jquery.js"></script>   
+    <script>
+        
+        $.get("https://portal.edu-apps.com.ar/api/products/?format=json", function (data) {
+            const productos = data
+            const masInfo = document.querySelector('#boton')
+            const modal = document.querySelector('.modal')
+            const contenidoModal = document.querySelector('.contenidoModal')
+            const cerrarModal = document.querySelector('cerrarModal')
+            precioMasAlto = 0
+            tablaProductos = document.querySelector('table')
+            productos.forEach(producto => {
+                let fila = tablaProductos.insertRow();
+                let celda = fila.insertCell(0);
+                let celda2 = fila.insertCell(1);
+                celda.innerHTML = (producto.name + ' <button id="boton">Más info</button>')
+                celda2.innerText = ('$' + producto.price)
+         //       const imagenURL = producto.image_field
+          //      const imagen = $('<img src="" alt="">')
+           //     imagen.prop("src", imagenURL)
+            //    contenidoModal.innerHTML = imagen + producto.description
+
+                if (producto.price > precioMasAlto) {
+                    celda.className = "text-danger"
+                    autoMasCaro = '(¡Auto más caro!)'
+                    celda.insertAdjacentHTML("afterend", autoMasCaro)
+                }
+                precioMasAlto = producto.price
+/*
+                masInfo.addEventListener('click', () => {
+                    modal.style.display = 'flex'
+                })
+
+                cerrarModal.addEventListener('click', () => {
+                    modal.style.display = 'none'
+                })
+
+                document.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                    modal.style.display = 'none'
+                    }
+                })   */ 
+            });
+        });
+    </script>
+</body>
+</html>

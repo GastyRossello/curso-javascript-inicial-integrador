@@ -13,10 +13,6 @@
             border-spacing: 5px;
         }
 
-        td{
-            text-align: center;
-        }
-        
         .text-danger{
             font-weight: bold;
             font-size: 20px;
@@ -27,15 +23,14 @@
             justify-content: center;
             align-items: center;
             position: fixed;
-            width: 100%;
-            height: 100%;
+            
+            height: 50px;
             top: 0;
             left: 0;
             background-color: rgba(0, 0, 0, 0.192);
         }
 
         .modalContenido{
-            height: 200px;
             border-radius: 5px;
             padding: 20px;
             position: relative;
@@ -47,16 +42,6 @@
             right: 10px;
             font-size: 20px;
             cursor: pointer;
-        }
-
-        img{
-            height: 300px;
-        }
-
-        .descripcion{
-            text-align: center;
-            font-family: Verdana;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -70,9 +55,9 @@
             </tr>
         </table>
     </div>
-    <div id="modal" class="modal">
-        <button id="cerrarModal" class="cerrarModal">&times;</button>    
+    <div id="modal" class="modal">    
         <div id="modalContenido" class="modalContenido">
+        <button id="cerrarModal" class="cerrarModal">&times;</button>
         </div>
     </div>
 
@@ -82,45 +67,45 @@
         
         $.get("https://portal.edu-apps.com.ar/api/products/?format=json", function (data) {
             const productos = data
-            tablaProductos = document.querySelector('table') // ¿Por qué no puedo usar JQ acá?
-
-            // Recorro los autos y voy agregando dinámicamente a una tabla cada característica.
-            // 
+            tablaProductos = document.querySelector('table')
             productos.forEach(producto => {
                 let fila = tablaProductos.insertRow();
                 let celda = fila.insertCell(0);
                 let celda2 = fila.insertCell(1);
-                celda.innerHTML = (producto.name + ` <button id="${producto.name}">Más info</button>`)
+                celda.innerHTML = (producto.name + ' <button id="boton">Más info</button>')
                 celda2.innerText = ('$' + producto.price)
-                let imagenURL = producto.image_field
-                let imagen = $(`<img src="${imagenURL}" alt="">`)
-                let descripcion = producto.description
-
-                // Armo un if para avisar cuál es el auto más caro.
-                let precioMasAlto = producto.price
+                const imagenURL = producto.image_field
+                const imagen = $('<img src="" alt="">')
+                imagen.prop("src", imagenURL)
+                const descripcion = producto.description
+                $('div.modalContenido').append(imagen)
+                $('div#modalContenido').append(descripcion)
+                precioMasAlto = producto.price
                 if (producto.price > precioMasAlto) {
-                    aviso = "¡Auto más caro!"
-                    
-                } 
-
-                // Programo los botones para abrir y cerrar los modales.
-                $(`button#${producto.name}`).on('click', (event) => {
-                    $('div#modalContenido').html(imagen)
-                    $('div#modalContenido').append(`<p class="descripcion"> ${descripcion} </p>`)
-                    modal.style.display = 'flex' 
-                })
-                
-                $('button#cerrarModal').on('click', (event) => {
-                modal.style.display = 'none'
-                })
-                
-                $(document).on('click', (event) => {
-                    if (event.target === modal) {
-                    modal.style.display = 'none'
-                    } 
-                })
+                    celda.className = "text-danger"
+                    autoMasCaro = '(¡Auto más caro!)'
+                    celda.insertAdjacentHTML("afterend", autoMasCaro)
+                }
+                precioMasAlto = producto.price
+            });
+            const masInfo = document.querySelector('#boton')
+            const cerrarModal = document.querySelector('.cerrarModal')
+            const modal = document.querySelector('.modal')
+            
+            masInfo.addEventListener('click', () => {
+                    modal.style.display = 'flex'
             })
-        })
+
+            cerrarModal.addEventListener('click', () => {
+                modal.style.display = 'none'
+            })
+
+            document.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                modal.style.display = 'none'
+                }
+            })
+        });
     </script>
 </body>
 </html>

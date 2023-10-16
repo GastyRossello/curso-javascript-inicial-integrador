@@ -84,7 +84,7 @@
             const productos = data
             tablaProductos = document.querySelector('table') // ¿Por qué no puedo usar JQ acá?
 
-            // Recorro los autos y voy agregando dinámicamente a una tabla cada característica.
+            // Recorro los autos y voy agregando dinámicamente celdas a una tabla con cada característica.
             // 
             productos.forEach(producto => {
                 let fila = tablaProductos.insertRow();
@@ -95,14 +95,14 @@
                 let imagenURL = producto.image_field
                 let imagen = $(`<img src="${imagenURL}" alt="">`)
                 let descripcion = producto.description
-
+/*
                 // Armo un if para avisar cuál es el auto más caro.
                 let precioMasAlto = producto.price
                 if (producto.price > precioMasAlto) {
                     aviso = "¡Auto más caro!"
                     
                 } 
-
+*/
                 // Programo los botones para abrir y cerrar los modales.
                 $(`button#${producto.name}`).on('click', (event) => {
                     $('div#modalContenido').html(imagen)

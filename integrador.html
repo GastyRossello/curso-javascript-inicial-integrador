@@ -15,12 +15,7 @@
 
         td{
             text-align: center;
-        }
-        
-        .text-danger{
-            font-weight: bold;
-            font-size: 20px;
-        }
+        } 
 
         .modal{
             display: none;
@@ -31,12 +26,11 @@
             height: 100%;
             top: 0;
             left: 0;
-            background-color: rgba(0, 0, 0, 0.192);
+            background-color: rgba(0, 0, 0, 0.418);
         }
 
         .modalContenido{
             height: 200px;
-            border-radius: 5px;
             padding: 20px;
             position: relative;
         }
@@ -51,12 +45,24 @@
 
         img{
             height: 300px;
+            border-radius: 30px;
         }
 
         .descripcion{
             text-align: center;
             font-family: Verdana;
             font-weight: bold;
+        }
+
+        .div-danger{
+            display: inline-block;
+            margin-top: 10px;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: Verdana;
+            font-weight: bold;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -83,9 +89,9 @@
         $.get("https://portal.edu-apps.com.ar/api/products/?format=json", function (data) {
             const productos = data
             tablaProductos = document.querySelector('table') // ¿Por qué no puedo usar JQ acá?
+            let precioMasAlto = 0 
 
-            // Recorro los autos y voy agregando dinámicamente celdas a una tabla con cada característica.
-            // 
+            // Recorro los autos y voy agregando dinámicamente celdas a una tabla con cada característica. 
             productos.forEach(producto => {
                 let fila = tablaProductos.insertRow();
                 let celda = fila.insertCell(0);
@@ -95,14 +101,13 @@
                 let imagenURL = producto.image_field
                 let imagen = $(`<img src="${imagenURL}" alt="">`)
                 let descripcion = producto.description
-/*
-                // Armo un if para avisar cuál es el auto más caro.
-                let precioMasAlto = producto.price
+
+                // Armo un if para avisar cuál es el auto más caro.              
                 if (producto.price > precioMasAlto) {
-                    aviso = "¡Auto más caro!"
-                    
-                } 
-*/
+                    precioMasAlto = producto.price
+                    autoMasCaro = producto.name
+                }
+                
                 // Programo los botones para abrir y cerrar los modales.
                 $(`button#${producto.name}`).on('click', (event) => {
                     $('div#modalContenido').html(imagen)
@@ -120,6 +125,7 @@
                     } 
                 })
             })
+            $('div#principal').append(`<div class= "div-danger"> ¡El modelo más caro es el: ${autoMasCaro}!</div>`)
         })
     </script>
 </body>

@@ -99,7 +99,7 @@
                 celda.innerHTML = (producto.name + ` <button id="${producto.name}">Más info</button>`)
                 celda2.innerText = ('$' + producto.price)
                 let imagenURL = producto.image_field
-                let imagen = $(`<img src="${imagenURL}" alt="">`)
+                let imagen = $(`<img src="${imagenURL}" alt="${producto.description}">`)
                 let descripcion = producto.description
 
                 // Armo un if para avisar cuál es el auto más caro.              

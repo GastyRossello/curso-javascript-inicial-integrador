@@ -54,27 +54,38 @@
             font-weight: bold;
         }
 
-        .div-danger{
-            display: inline-block;
-            margin-top: 10px;
-            border: 1px solid black;
-            border-radius: 10px;
-            padding: 20px;
+        .botonCompra{
+            border-radius: 5px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .formCompra{
+            display: none;
+        }
+
+        .text-danger{
+            border-radius: 20px;
+            background-color: rgb(226, 64, 64);
             font-family: Verdana;
+            font-size: 15px;
             font-weight: bold;
-            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div id="principal">
+    <div id="principal" class="principal">
         <table>
             <tr>
               <th>Modelo</th>
               <th>Precio</th>
             </tr>
         </table>
+    </div>
+    <div id="formCompra" class="formCompra">
+        <h1>Formulario de compra</h1>
+        <form action="" method=""></form>
     </div>
     <div id="modal" class="modal">
         <button id="cerrarModal" class="cerrarModal">&times;</button>    
@@ -91,6 +102,13 @@
             tablaProductos = document.querySelector('table') // ¿Por qué no puedo usar JQ acá?
             let precioMasAlto = 0 
 
+            //Recorro los autos para guardar el precio más alto.
+            productos.forEach(producto => {
+                if (producto.price > precioMasAlto) {
+                    precioMasAlto = producto.price
+                }
+            })
+
             // Recorro los autos y voy agregando dinámicamente celdas a una tabla con cada característica. 
             productos.forEach(producto => {
                 let fila = tablaProductos.insertRow();
@@ -102,16 +120,16 @@
                 let imagen = $(`<img src="${imagenURL}" alt="${producto.description}">`)
                 let descripcion = producto.description
 
-                // Armo un if para avisar cuál es el auto más caro.              
-                if (producto.price > precioMasAlto) {
-                    precioMasAlto = producto.price
-                    autoMasCaro = producto.name
+                // Armo un if para avisar cuál es/son el/los auto/s más caro/s.              
+                if (producto.price == precioMasAlto) {
+                    $(celda).toggleClass('text-danger')
                 }
                 
                 // Programo los botones para abrir y cerrar los modales.
                 $(`button#${producto.name}`).on('click', (event) => {
                     $('div#modalContenido').html(imagen)
                     $('div#modalContenido').append(`<p class="descripcion"> ${descripcion} </p>`)
+                    $('div#modalContenido').append(`<button id="botonCompra" class="botonCompra">Comprar</button>`)
                     modal.style.display = 'flex' 
                 })
                 
@@ -124,8 +142,15 @@
                     modal.style.display = 'none'
                     } 
                 })
+
+                $('button#botonCompra').on('click', (event) => {
+                    modal.style.display = 'none'
+    /*                $('div#principal').hide()
+                    $('div#formCompra').show()
+                    $('form').append(imagen)
+                    $('form').append(`<label for="${producto.name}">"${producto.name}"</label>`) */
+                })
             })
-            $('div#principal').append(`<div class= "div-danger"> ¡El modelo más caro es el: ${autoMasCaro}!</div>`)
         })
     </script>
 </body>

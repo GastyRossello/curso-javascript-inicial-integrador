@@ -43,6 +43,32 @@
             cursor: pointer;
         }
 
+        h1{
+            display: block;
+            text-align: center;
+            font-family: Verdana;
+        }
+
+        .formCompra{
+            display: none;
+            background-color: #39464733;
+            border: 2px solid #000000;
+            border-radius: 5px;
+            flex-direction: column;
+        }
+
+        label{
+            padding: 10px;
+            display: block;
+            text-align: center;
+            font-family: Verdana;
+            font-weight: bold;
+        }
+
+        #imgForm{
+            text-align: center;
+        }
+
         img{
             height: 300px;
             border-radius: 30px;
@@ -58,10 +84,6 @@
             border-radius: 5px;
             font-size: 30px;
             cursor: pointer;
-        }
-
-        .formCompra{
-            display: none;
         }
 
         .text-danger{
@@ -92,7 +114,6 @@
         <div id="modalContenido" class="modalContenido">
         </div>
     </div>
-
 
     <script src="./jquery.js"></script>   
     <script>
@@ -130,26 +151,30 @@
                     $('div#modalContenido').html(imagen)
                     $('div#modalContenido').append(`<p class="descripcion"> ${descripcion} </p>`)
                     $('div#modalContenido').append(`<button id="botonCompra" class="botonCompra">Comprar</button>`)
-                    modal.style.display = 'flex' 
+                    modal.style.display = 'flex'
+
+                    $(`button.botonCompra`).on('click', (event) => {
+                        modal.style.display = 'none'
+                        $('div#principal').hide()
+                        $('div#formCompra').show()
+                        $('div#formCompra').css("display", "inline-block") 
+                        $('h1').after(`<div id="imgForm"></div>`)
+                        $('div#imgForm').html(imagen)
+                        $('form').append(`<label for="">"${producto.name}"</label>`)
+                        $('form').append(`<label for="">"${producto.description}"</label>`)
+                        $('form').append(`<label for="">"${producto.price}"</label>`)
+                    })
                 })
                 
                 $('button#cerrarModal').on('click', (event) => {
-                modal.style.display = 'none'
+                    modal.style.display = 'none'
                 })
                 
                 $(document).on('click', (event) => {
                     if (event.target === modal) {
                     modal.style.display = 'none'
                     } 
-                })
-
-                $('button#botonCompra').on('click', (event) => {
-                    modal.style.display = 'none'
-    /*                $('div#principal').hide()
-                    $('div#formCompra').show()
-                    $('form').append(imagen)
-                    $('form').append(`<label for="${producto.name}">"${producto.name}"</label>`) */
-                })
+                }) 
             })
         })
     </script>
